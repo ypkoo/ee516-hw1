@@ -110,7 +110,7 @@ static void __exit dummy_exit(void)
 ssize_t dummy_read(struct file *file, char *buffer, size_t length, loff_t *offset)
 {
         if (!is_empty(&stack)) {
-                if (pop(stack, buffer) != 0)
+                if (pop(&stack, buffer) != 0)
                         return -EFAULT;
                 else
                         printk("Dummy Driver : Here is Read Call[%x]\n", top(&stack));

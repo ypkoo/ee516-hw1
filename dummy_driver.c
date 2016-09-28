@@ -43,7 +43,7 @@ int pop(stack_t *s, char *value) {
 
         if (is_empty(s) || s == NULL || value == NULL) return -1;
 
-        *value = s->item[s->top];
+        *value = s->item[s->top-1];
         s->top--;
 
         return 0;
@@ -52,9 +52,7 @@ int pop(stack_t *s, char *value) {
 char top(stack_t *s) {
         if (is_empty(s) || s == NULL) return -1;
 
-        // *value = s->item[s->top];
-
-        return s->item[s->top];
+        return s->item[s->top-1];
 }
 
 
@@ -113,7 +111,7 @@ ssize_t dummy_read(struct file *file, char *buffer, size_t length, loff_t *offse
                 if (pop(&stack, buffer) != 0)
                         return -EFAULT;
                 else
-                        printk("Dummy Driver : Here is Read Call[%x]\n", top(&stack));
+                        printk("Dummy Driver : Here is Read Call[%x]\n", *buffer);
                 // if (copy_to_user(buffer, &(top(stack)), sizeof(char)))
                 //         return -EFAULT;
                 

@@ -8,8 +8,10 @@ int main(void)
   
   if(fd<=0)
     return -1;
-  buf[0] = 'a';
-  write(fd,buf,sizeof(buf));
+  buf[0] = 0x08;
+  write(fd,buf,1);
+  read(fd,buf,1);
+  printf("data from the device : %x\n", buf[0]);
   close(fd);
 
   return 0;

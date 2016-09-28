@@ -3,7 +3,7 @@
 
 int main(void)
 {		
-        char buf[20];
+        char buf[4];
         int fd = open("/dev/DUMMY_DEVICE", O_RDWR);
 
         printf("fd: %d\n", fd);

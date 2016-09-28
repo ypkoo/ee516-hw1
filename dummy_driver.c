@@ -72,6 +72,7 @@ ssize_t dummy_read(struct file *file, char *buffer, size_t length, loff_t *offse
 ssize_t dummy_write(struct file *file, const char *buffer, size_t length, loff_t *offset);
 int dummy_open(struct inode *inode, struct file *file);
 int dummy_release(struct inode *inode, struct file *file);
+long dummy_flush(struct file *file, unsigned int cmd, unsigned long iotcl_arg);
 
 static struct file_operations dummy_fops= {
         .open=dummy_open,

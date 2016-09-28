@@ -74,7 +74,7 @@ static struct file_operations dummy_fops= {
 };
 
 char devicename[20];
-stack_t *stack; // a stack to use.
+stack_t stack; // a stack to use.
 
 // char value=' ';
 static struct cdev my_cdev;
@@ -91,7 +91,7 @@ static int __init dummy_init(void)
         cdev_add(&my_cdev,dev,128);
 
         /* stack initialization */
-        if (stack_init(stack) != 0) {
+        if (stack_init(&stack) != 0) {
                 printk("Stack initialization failed.\n");
         };
 
@@ -109,11 +109,11 @@ static void __exit dummy_exit(void)
 
 ssize_t dummy_read(struct file *file, char *buffer, size_t length, loff_t *offset)
 {
-        if (!is_empty(stack)) {
+        if (!is_empty(&stack)) {
                 if (pop(stack, buffer) != 0)
                         return -EFAULT;
                 else
-                        printk("Dummy Driver : Here is Read Call[%x]\n", top(stack));
+                        printk("Dummy Driver : Here is Read Call[%x]\n", top(&stack));
                 // if (copy_to_user(buffer, &(top(stack)), sizeof(char)))
                 //         return -EFAULT;
                 
@@ -129,13 +129,13 @@ ssize_t dummy_write(struct file *file, const char *buffer, size_t length, loff_t
 {
         // char vaule;
 
-        if (!is_full(stack)) {
+        if (!is_full(&stack)) {
                 // if( copy_from_user(&value, buffer, sizeof(char)))
                 //         return -EFAULT;
-                if (push(stack, buffer) != 0) 
+                if (push(&stack, buffer) != 0) 
                         return -EFAULT;
                 else
-                        printk("Dummy Driver: Here is Write Call [%x]\n", top(stack));
+                        printk("Dummy Driver: Here is Write Call [%x]\n", top(&stack));
         }
         else {
                 printk("Dummy Driver: Stack is full.\n");

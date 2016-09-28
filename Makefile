@@ -12,10 +12,10 @@
 
 # obj-m += $(OBJS)
 
-SRCS = stack.c dummy_driver.c
-OBJS = $(SRCS:.c=.o)
+# SRCS = stack.c dummy_driver.c
+# OBJS = $(SRCS:.c=.o)
 
-obj-m += $(OBJS)
+obj-m := dummy_driver.o
 
 KERNEL_DIR :=/lib/modules/$(shell uname -r)/build
 PWD :=$(shell pwd)

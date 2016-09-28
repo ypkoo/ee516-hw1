@@ -4,6 +4,7 @@
 #include <linux/cdev.h>
 #include <linux/semaphore.h>
 #include <asm/uaccess.h>
+#include <linux/ioctl.h>
 
 #define DUMMY_MAJOR_NUMBER 250
 
@@ -55,6 +56,14 @@ char top(stack_t *s) {
         return s->item[s->top-1];
 }
 
+int flush(stack_t *s) {
+        if (s == NULL) return -1;
+
+        s->top = 0;
+
+        return 0;
+}
+
 
 
 static int __init dummy_init(void);
@@ -69,6 +78,7 @@ static struct file_operations dummy_fops= {
         .read=dummy_read,
         .write=dummy_write,
         .release=dummy_release,
+        .unlocked_ioctl=dummy_flush, // flush stack
 };
 
 char devicename[20];
@@ -148,6 +158,16 @@ int dummy_open(struct inode *inode, struct file *file)
         return 0;
 }
 
+long dummy_flush(struct file *file, unsigned int cmd, unsigned long ioctl_arg) {
+        if (cmd == 0) {
+                if (flush(&stack) != 0)
+                        return -EFAULT;
+                else
+                        printk("Dummy Driver : Stack flushed\n");
+        }
+
+        return 0;
+}
 
 int dummy_release(struct inode *inode, struct file *file)
 {

@@ -3,8 +3,7 @@
 
 int main(void)
 {		
-	printf("hellllllo\n");
-        char buf[20];
+        char buf[1];
         int fd = open("/dev/DUMMY_DEVICE", O_RDWR);
 
         printf("fd: %d\n", fd);
@@ -13,10 +12,6 @@ int main(void)
         buf[0] = 0x07;
 
         write(fd, buf, 1);
-
-        read(fd, buf, 1);
-
-        printf("data from the device : %x\n", buf[0]);
 
         close(fd);
 

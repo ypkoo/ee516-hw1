@@ -14,11 +14,11 @@ int main(void)
         buf[2] = 0x10;
         buf[3] = 0x11;
 
-        write(fd, buf+0, 1);
+        write(fd, buf, 1);
 	write(fd, buf+1, 1);
 	write(fd, buf+2, 1);
         write(fd, buf+3, 1);
-        read(fd, buf+0, 1);
+        read(fd, buf, 1);
         read(fd, buf+1, 1);
         read(fd, buf+2, 1);
         read(fd, buf+3, 1);
